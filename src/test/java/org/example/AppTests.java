@@ -7,6 +7,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.Scanner;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class AppTests {
     // 테스트유틸 테스트 시작
@@ -94,6 +95,28 @@ public class AppTests {
                 .contains("2번 명언이 등록되었습니다.")
                 .contains("3번 명언이 등록되었습니다.")
                 .doesNotContain("4번 명언이 등록되었습니다.");
+    }
+    @Test
+    @DisplayName("등록_후_목록에서_확인할_수_있어야_한다")
+    public void t7() {
+        String rs = AppTestRunner.run("""
+                등록
+                현재를 사랑하라.
+                작자미상
+                등록
+                나의 죽음을 적들에게 알리지 마라.
+                이순신
+                등록
+                왼손은 거들뿐
+                강백호
+                목록
+                """);
+
+        assertThat(rs)
+                .contains("번호 / 작가 / 명언")
+                .contains("3 / 강백호 / 왼손은 거들뿐")
+                .contains("2 / 이순신 / 나의 죽음을 적들에게 알리지 마라.")
+                .contains("1 / 작자미상 / 현재를 사랑하라.");
     }
     // 앱 테스트 끝
 }
