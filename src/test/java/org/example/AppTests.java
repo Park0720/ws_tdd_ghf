@@ -12,7 +12,7 @@ public class AppTests {
     // 테스트유틸 테스트 시작
     @Test
     @DisplayName("스캐너에 키보드가 아닌 문자열을 입력으로 설정")
-    public void t1(){
+    public void t1() {
         Scanner sc = TestUtil.genScanner("안녕");
 
         String cmd = sc.nextLine().trim();
@@ -21,7 +21,7 @@ public class AppTests {
 
     @Test
     @DisplayName("출력을 모니터에 하지 않고 문자열로 얻기")
-    public void t2(){
+    public void t2() {
         // System.out 에 대한 화면출력 금지 시작
         ByteArrayOutputStream output = TestUtil.setOutToByteArray();
 
@@ -41,13 +41,7 @@ public class AppTests {
     @Test
     @DisplayName("프로그램 시작시 타이틀 출력 그리고 종료")
     public void t3() {
-        Scanner sc = TestUtil.genScanner("종료");
-        ByteArrayOutputStream output = TestUtil.setOutToByteArray();
-
-        new App(sc).run();
-
-        String rs = output.toString();
-        TestUtil.clearSetOutToByteArray(output);
+        String rs = AppTestRunner.run("");
 
         assertThat(rs)
                 .contains("== 명언 앱 ==")
@@ -59,20 +53,11 @@ public class AppTests {
     @Test
     @DisplayName("잘못된 명령어 입력에 대한 처리")
     public void t4() {
-        Scanner sc = TestUtil.genScanner("""
-                종료2
-                종료
-                """.stripIndent().trim());
-        ByteArrayOutputStream output = TestUtil.setOutToByteArray();
-
-        new App(sc).run();
-
-        String rs = output.toString();
-        TestUtil.clearSetOutToByteArray(output);
+        String rs = AppTestRunner.run("종료2");
 
         assertThat(rs)
                 .contains("올바르지 않은 명령입니다.");
     }
     // 앱 테스트 끝
 }
-}
+
